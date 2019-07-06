@@ -27,6 +27,42 @@ const { Product } = require("./models/product");
 //                    PRODUCTS
 //=================================================
 
+app.get("/api/product/articles", (req, res) => {
+  let order = req.query.order ? req.query.order : "asc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "id";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+
+  Product.find()
+    .populate("brand")
+    .populate("wood")
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .exec((err, articles) => {
+      if (err) return res.status(400).send(err);
+      res.send(articles);
+    });
+});
+
+app.get("/api/product/articles_by_id", (req, res) => {
+  let type = req.query.type;
+  let items = req.query.id;
+
+  if (type === "array") {
+    let ids = items.split(",");
+    items = [];
+    items = ids.map(item => {
+      return mongoose.Types.ObjectId(item);
+    });
+  }
+  Product.find({ _id: { $in: items } })
+    .populate("brand")
+    .populate("wood")
+    .exec((err, docs) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).send(docs);
+    });
+});
+
 app.post("/api/product/article", auth, admin, (req, res) => {
   const product = new Product(req.body);
   product.save((err, doc) => {
