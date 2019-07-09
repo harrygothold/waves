@@ -2,7 +2,9 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import FormField from "../utils/Forms/FormField";
-import { update } from "../utils/Forms/FormActions";
+import { update, generateData, isFormValid } from "../utils/Forms/FormActions";
+import { loginUser } from "../../actions/user_actions";
+import { withRouter } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -50,10 +52,25 @@ class Login extends Component {
 
   submitForm = e => {
     e.preventDefault();
+    let dataToSubmit = generateData(this.state.formData, "login");
+    let formIsValid = isFormValid(this.state.formData, "login");
+
+    if (formIsValid) {
+      this.props.dispatch(loginUser(dataToSubmit)).then(response => {
+        if (response.payload.loginSuccess) {
+          console.log(response.payload);
+          this.props.history.push("/user/dashboard");
+        } else {
+          this.setState({ formError: true });
+        }
+      });
+    } else {
+      this.setState({ formError: true });
+    }
   };
 
   render() {
-    const { formData } = this.state;
+    const { formData, formError } = this.state;
     return (
       <div className="signin_wrapper">
         <form onSubmit={e => this.submitForm(e)}>
@@ -67,10 +84,14 @@ class Login extends Component {
             formdata={formData.password}
             change={el => this.updateForm(el)}
           />
+          {formError && (
+            <div className="error_label">Please check your data</div>
+          )}
+          <button onClick={e => this.submitForm(e)}>Login</button>
         </form>
       </div>
     );
   }
 }
 
-export default connect()(Login);
+export default connect()(withRouter(Login));
