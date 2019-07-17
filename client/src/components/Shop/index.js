@@ -9,6 +9,7 @@ import {
 } from "../../actions/products_actions";
 import CollapseCheckbox from "../utils/CollapseCheckbox";
 import CollapseRadio from "../utils/CollapseRadio";
+import LoadMoreCards from "./LoadMoreCards";
 
 class Shop extends Component {
   state = {
@@ -62,6 +63,16 @@ class Shop extends Component {
       });
   };
 
+  loadMoreCards = () => {
+    const { limit, filters } = this.state;
+    let skip = this.state.skip + limit;
+    this.props
+      .dispatch(
+        getProductsToShop(skip, limit, filters, this.props.products.toShop)
+      )
+      .then(() => this.setState({ skip }));
+  };
+
   render() {
     const products = this.props.products;
     return (
@@ -96,7 +107,16 @@ class Shop extends Component {
               />
             </div>
             <div className="right">
-              <h1>Right</h1>
+              <div className="shop_options">
+                <div className="shop_grids clear">grids</div>
+              </div>
+              <LoadMoreCards
+                grid={this.state.grid}
+                limit={this.state.limit}
+                size={products.toShopSize}
+                products={products.toShop}
+                loadMore={() => this.loadMoreCards()}
+              />
             </div>
           </div>
         </div>
