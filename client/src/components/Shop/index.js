@@ -10,6 +10,9 @@ import {
 import CollapseCheckbox from "../utils/CollapseCheckbox";
 import CollapseRadio from "../utils/CollapseRadio";
 import LoadMoreCards from "./LoadMoreCards";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faBars from "@fortawesome/fontawesome-free-solid/faBars";
+import faTh from "@fortawesome/fontawesome-free-solid/faTh";
 
 class Shop extends Component {
   state = {
@@ -73,8 +76,15 @@ class Shop extends Component {
       .then(() => this.setState({ skip }));
   };
 
+  handleGrid = () => {
+    this.setState({
+      grid: !this.state.grid ? "grid_bars" : ""
+    });
+  };
+
   render() {
     const products = this.props.products;
+    const { grid } = this.state;
     return (
       <div>
         <PageTop title="Browse Products" />
@@ -108,7 +118,20 @@ class Shop extends Component {
             </div>
             <div className="right">
               <div className="shop_options">
-                <div className="shop_grids clear">grids</div>
+                <div className="shop_grids clear">
+                  <div
+                    className={`grid_btn ${grid ? "" : "active"} `}
+                    onClick={() => this.handleGrid()}
+                  >
+                    <FontAwesomeIcon icon={faTh} />
+                  </div>
+                  <div
+                    className={`grid_btn ${!grid ? "" : "active"} `}
+                    onClick={() => this.handleGrid()}
+                  >
+                    <FontAwesomeIcon icon={faBars} />
+                  </div>
+                </div>
               </div>
               <LoadMoreCards
                 grid={this.state.grid}
