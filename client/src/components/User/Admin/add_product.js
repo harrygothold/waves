@@ -15,6 +15,7 @@ import {
   addProduct,
   clearProduct
 } from "../../../actions/products_actions";
+import FileUpload from "../../utils/Forms/FileUpload";
 
 class AddProduct extends Component {
   state = {
@@ -175,6 +176,16 @@ class AddProduct extends Component {
         touched: false,
         validationMessage: "",
         showLabel: true
+      },
+      images: {
+        value: [],
+        validation: {
+          required: false
+        },
+        valid: false,
+        touched: false,
+        validationMessage: "",
+        showLabel: false
       }
     }
   };
@@ -239,6 +250,18 @@ class AddProduct extends Component {
     });
   }
 
+  imagesHandler = images => {
+    const newFormData = {
+      ...this.state.formdata
+    };
+    newFormData["images"].value = images;
+    newFormData["images"].valid = true;
+
+    this.setState({
+      formdata: newFormData
+    });
+  };
+
   render() {
     const { formdata, formError, formSuccess } = this.state;
     return (
@@ -246,6 +269,10 @@ class AddProduct extends Component {
         <div>
           <h1>Add Products</h1>
           <form onSubmit={e => this.submitForm(e)}>
+            <FileUpload
+              imagesHandler={images => this.imagesHandler(images)}
+              reset={formSuccess}
+            />
             <FormField
               id={"name"}
               formdata={formdata.name}

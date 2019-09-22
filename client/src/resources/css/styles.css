@@ -861,6 +861,7 @@ footer .business_nfo .nfo {
   height: 160px;
   padding: 10px;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .dropzone_box .wrap {
@@ -873,4 +874,23 @@ footer .business_nfo .nfo {
   background-size: contain !important;
   background-position: center center !important;
   border: 1px solid #eaeaea;
+}
+
+.hover {
+  opacity: 0.5;
+}
+
+.delete {
+  font-size: 20px;
+  z-index: 200;
+  color: black;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -35px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.delete:hover {
+  color: #2196f3;
 }
