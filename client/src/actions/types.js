@@ -12,3 +12,5 @@ export const GET_PRODUCTS_TO_SHOP = "GET_PRODUCTS_TO_SHOP";
 
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const CLEAR_PRODUCT = "CLEAR_PRODUCT";
+export const ADD_WOOD = "add_wood";
+export const ADD_BRAND = "add_brand";
