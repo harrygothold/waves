@@ -8,8 +8,23 @@ const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DATABASE);
+const connectDB = async () => {
+  const db = process.env.DATABASE;
+  try {
+    await mongoose.connect(db, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false
+    });
+    console.log("MongoDB Connected");
+  } catch (err) {
+    console.error(err.message);
+    // exit process with failure
+    process.exit(1);
+  }
+};
+
+connectDB();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
