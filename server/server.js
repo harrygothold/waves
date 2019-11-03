@@ -272,6 +272,50 @@ app.get("/api/users/removeimage", auth, admin, (req, res) => {
   });
 });
 
+app.post("/api/users/addToCart", auth, (req, res) => {
+  const { _id } = req.user;
+  User.findOne({ _id }, (err, doc) => {
+    let duplicate = false;
+    doc.cart.forEach(item => {
+      if (item.id == req.query.productId) {
+        duplicate = true;
+      }
+    });
+    if (duplicate) {
+      User.findOneAndUpdate(
+        {
+          _id,
+          "cart.id": mongoose.Types.ObjectId(req.query.productId)
+        },
+        { $inc: { "cart.$.quantity": 1 } },
+        { new: true },
+        (err, doc) => {
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(doc.cart);
+        }
+      );
+    } else {
+      User.findOneAndUpdate(
+        { _id },
+        {
+          $push: {
+            cart: {
+              id: mongoose.Types.ObjectId(req.query.productId),
+              quantity: 1,
+              date: Date.now()
+            }
+          }
+        },
+        { new: true },
+        (err, doc) => {
+          if (err) return res.json({ success: false, err });
+          res.status(200).json(doc.cart);
+        }
+      );
+    }
+  });
+});
+
 const port = process.env.PORT || 3002;
 app.listen(port, () => {
   console.log(`Server Running at ${port}`);

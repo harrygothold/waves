@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PageTop from "../utils/PageTop";
 import { connect } from "react-redux";
+import { addToCart } from "../../actions/user_actions";
 import {
   getProductDetail,
   clearProductDetail
@@ -20,6 +21,11 @@ class ProductDetailPage extends Component {
   componentWillUnmount() {
     this.props.dispatch(clearProductDetail());
   }
+
+  addToCartHandler(id) {
+    this.props.dispatch(addToCart(id));
+  }
+
   render() {
     return (
       <div>
@@ -34,7 +40,7 @@ class ProductDetailPage extends Component {
               </div>
               <div className="right">
                 <ProductInfo
-                  addToCart={id => this.addToCart(id)}
+                  addToCart={id => this.addToCartHandler(id)}
                   detail={this.props.products.prodDetail}
                 />
               </div>
