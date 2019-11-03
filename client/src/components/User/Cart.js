@@ -7,6 +7,7 @@ import faSmile from "@fortawesome/fontawesome-free-solid/faSmile";
 import CartProduct from "../utils/User/CartProduct";
 import UserLayout from "../../hoc/UserLayout";
 import { Link } from "react-router-dom";
+import Paypal from "../utils/Paypal";
 
 class UserCart extends Component {
   state = {
@@ -62,6 +63,17 @@ class UserCart extends Component {
     });
   };
 
+  transactionError = data => {
+    console.log(data);
+  };
+  transactionCancelled = data => {};
+  transactionSuccess = data => {
+    this.setState({
+      showTotal: false,
+      showSuccess: true
+    });
+  };
+
   render() {
     const { user } = this.props;
     return (
@@ -91,7 +103,14 @@ class UserCart extends Component {
             )}
           </div>
           {this.state.showTotal && (
-            <div className="paypal_button_container">Paypal</div>
+            <div className="paypal_button_container">
+              <Paypal
+                toPay={this.state.total}
+                transactionError={data => this.transactionError(data)}
+                transactionCancelled={data => this.transactionCancelled(data)}
+                onSuccess={data => this.transactionSuccess(data)}
+              />
+            </div>
           )}
         </div>
       </UserLayout>
