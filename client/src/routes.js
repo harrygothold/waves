@@ -10,6 +10,7 @@ import Shop from "./components/Shop";
 import AddProduct from "./components/User/Admin/add_product";
 import ManageCategories from "./components/User/Admin/manage_categories";
 import ProductDetailPage from "./components/Product";
+import UserCart from "./components/User/Cart";
 
 const Routes = () => {
   return (
@@ -33,6 +34,7 @@ const Routes = () => {
           exact
           component={Auth(UserDashboard, true)}
         />
+        <Route path="/user/cart" exact component={Auth(UserCart, true)} />
         <Route
           path="/admin/add_product"
           exact
