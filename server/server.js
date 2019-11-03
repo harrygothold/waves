@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const formidable = require("express-formidable");
 const cloudinary = require("cloudinary");
+const morgan = require("morgan");
 
 const app = express();
 const mongoose = require("mongoose");
@@ -27,6 +28,7 @@ const connectDB = async () => {
 connectDB();
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
