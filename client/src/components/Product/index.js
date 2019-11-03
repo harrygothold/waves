@@ -6,6 +6,7 @@ import {
   clearProductDetail
 } from "../../actions/products_actions";
 import ProductInfo from "./ProductInfo";
+import ProductImages from "./ProductImages";
 
 class ProductDetailPage extends Component {
   componentDidMount() {
@@ -22,7 +23,11 @@ class ProductDetailPage extends Component {
         <div className="container">
           {this.props.products.prodDetail ? (
             <div className="product_detail_wrapper">
-              <div className="left">images</div>
+              <div className="left">
+                <div style={{ width: "500px" }}>
+                  <ProductImages detail={this.props.products.prodDetail} />
+                </div>
+              </div>
               <div className="right">
                 <ProductInfo
                   addToCart={id => this.addToCart(id)}
