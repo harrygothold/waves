@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getCartItems } from "../../actions/user_actions";
+import { getCartItems, removeCartItem } from "../../actions/user_actions";
 import { connect } from "react-redux";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFrown from "@fortawesome/fontawesome-free-solid/faFrown";
@@ -51,6 +51,16 @@ class UserCart extends Component {
       </div>
     </div>
   );
+
+  removeCartItem = id => {
+    this.props.dispatch(removeCartItem(id)).then(() => {
+      if (this.props.user.cartDetail.length <= 0) {
+        this.setState({ showTotal: false });
+      } else {
+        this.calculateTotal(this.props.user.cartDetail);
+      }
+    });
+  };
 
   render() {
     const { user } = this.props;
