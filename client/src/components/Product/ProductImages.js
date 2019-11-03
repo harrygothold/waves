@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Lightbox from "../utils/Lightbox";
 
 class ProductImages extends Component {
   state = {
@@ -18,7 +19,13 @@ class ProductImages extends Component {
     }
   }
 
-  handleLightbox = () => {};
+  handleLightbox = position => {
+    if (this.state.lightboxImages.length > 0) {
+      this.setState({ lightbox: true, imagePosition: position });
+    }
+  };
+
+  handleLightboxClose = () => this.setState({ lightbox: false });
 
   renderProductImage = images => {
     if (images.length > 0) {
@@ -28,7 +35,7 @@ class ProductImages extends Component {
     }
   };
 
-  renderThumbs = details =>
+  renderThumbs = () =>
     this.state.lightboxImages.map((item, i) =>
       i > 0 ? (
         <div
@@ -42,6 +49,7 @@ class ProductImages extends Component {
 
   render() {
     const { detail } = this.props;
+    const { lightbox, lightboxImages, imagePosition } = this.state;
 
     return (
       <div className="product_image_container">
@@ -55,7 +63,16 @@ class ProductImages extends Component {
             onClick={() => this.handleLightbox(0)}
           ></div>
         </div>
-        <div className="main_thumbs">{this.renderThumbs(detail)}</div>
+        <div className="main_thumbs">{this.renderThumbs()}</div>
+        {lightbox && (
+          <Lightbox
+            id={detail.id}
+            images={lightboxImages}
+            open={lightbox}
+            position={imagePosition}
+            onclose={() => this.handleLightboxClose()}
+          />
+        )}
       </div>
     );
   }

@@ -287,6 +287,14 @@ header .container .right .top {
   border-bottom: 1px solid #ffffff;
 }
 
+header .container .right .top a:hover {
+  color: white;
+}
+
+header .container .right .bottom a:hover {
+  color: #c9c9c9;
+}
+
 header .cart_link {
   display: inline-block;
   position: relative;
