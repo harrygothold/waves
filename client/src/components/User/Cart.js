@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { getCartItems, removeCartItem } from "../../actions/user_actions";
+import {
+  getCartItems,
+  removeCartItem,
+  onSuccessPayment
+} from "../../actions/user_actions";
 import { connect } from "react-redux";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faFrown from "@fortawesome/fontawesome-free-solid/faFrown";
@@ -68,10 +72,21 @@ class UserCart extends Component {
   };
   transactionCancelled = data => {};
   transactionSuccess = data => {
-    this.setState({
-      showTotal: false,
-      showSuccess: true
-    });
+    this.props
+      .dispatch(
+        onSuccessPayment({
+          cartDetail: this.props.user.cartDetail,
+          paymentData: data
+        })
+      )
+      .then(() => {
+        if (this.props.user.successBuy) {
+          this.setState({
+            showTotal: false,
+            showSuccess: true
+          });
+        }
+      });
   };
 
   render() {

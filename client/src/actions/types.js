@@ -6,6 +6,7 @@ export const LOGOUT_USER = "LOGOUT_USER";
 export const ADD_TO_CART = "add_to_cart";
 export const GET_CART_ITEMS = "get_cart_items";
 export const REMOVE_CART_ITEM = "remove_cart_item";
+export const ON_SUCCESS_PAYMENT = "on_success_payment";
 
 export const GET_PRODUCTS_BY_ARRIVAL = "GET_PRODUCTS_BY_ARRIVAL";
 export const GET_PRODUCTS_BY_SELL = "GET_PRODUCTS_BY_SELL";
