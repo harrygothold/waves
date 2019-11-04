@@ -8,7 +8,9 @@ import {
   ADD_TO_CART,
   GET_CART_ITEMS,
   REMOVE_CART_ITEM,
-  ON_SUCCESS_PAYMENT
+  ON_SUCCESS_PAYMENT,
+  UPDATE_USER_DATA,
+  CLEAR_UPDATE_USER_DATA
 } from "./types";
 
 export const loginUser = dataToSubmit => {
@@ -111,5 +113,23 @@ export function onSuccessPayment(data) {
   return {
     type: ON_SUCCESS_PAYMENT,
     payload: request
+  };
+}
+
+export function updateUserData(data) {
+  const request = axios
+    .post(`${USER_SERVER}/update_profile`, data)
+    .then(res => res.data);
+
+  return {
+    type: UPDATE_USER_DATA,
+    payload: request
+  };
+}
+
+export function clearUpdateUser() {
+  return {
+    type: CLEAR_UPDATE_USER_DATA,
+    payload: ""
   };
 }
