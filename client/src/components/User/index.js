@@ -1,6 +1,7 @@
 import React from "react";
 import UserLayout from "../../hoc/UserLayout";
 import Button from "../utils/Button";
+import PurchaseHistory from "../utils/User/PurchaseHistory";
 
 const UserDashboard = ({ user }) => {
   return (
@@ -19,10 +20,14 @@ const UserDashboard = ({ user }) => {
             linkTo="/user/user_profile"
           />
         </div>
-        <div className="user_nfo_panel">
-          <h1>Purchase History</h1>
-          <div className="user_product_block_wrapper">history</div>
-        </div>
+        {user.userData.history && (
+          <div className="user_nfo_panel">
+            <h1>Purchase History</h1>
+            <div className="user_product_block_wrapper">
+              <PurchaseHistory purchaseHistory={user.userData.history} />
+            </div>
+          </div>
+        )}
       </div>
     </UserLayout>
   );
